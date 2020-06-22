@@ -1,0 +1,35 @@
+{% include 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    {{ user.username }}
+                    <div><a href="{% url 'accounts:profile' pk=user.id %}">@{{ user.username }}</a></div>
+                    </br>
+                    <div>Tweets: {{ user.tweets.all.count }}</div>
+                    <div><a href="{% url 'accounts:following'%}">Following:</a> {{ user.follows.count }}</div>
+                    <div><a href="{% url 'accounts:followers'%}">Followers:</a> {{ user.followed_by.count }}</div>
+                </div>
+            </div>
+            </br>
+            <a href="{% url 'authentication:logout' %}" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+        <div class="col-5">
+            <h3>What's happening, {{ user.username }}?</h3>
+            {% for tweet_obj in tweet_objects %}
+            <ul>
+                <li><a href="{% url 'accounts:profile' pk=tweet_obj.user.pk %}">@{{ tweet_obj.user.username }}</a> - 
+                    <a href="{% url 'tweet:tweet_detail' pk=tweet_obj.id %}">{{ tweet_obj.created_on }}</a>
+                </li>
+                <ul>
+                    <li>{{tweet_obj.body}}</li>
+                </ul>
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

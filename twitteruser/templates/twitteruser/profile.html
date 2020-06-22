@@ -1,0 +1,40 @@
+{% include 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+           <div class="card">
+            <div class="card-body">
+                {{ curr_user_object.0.username }}
+                <div><a href="{% url 'accounts:profile' pk=curr_user_object.0.pk %}">@{{ curr_user_object.0.username }}</a></div>
+                </br>
+                <div>Tweets: {{ curr_user_object.0.tweets.all.count }}</div>
+                <div>Following: {{ curr_user_object.0.follows.count }}</div>
+                <div>Followers: {{ curr_user_object.0.followed_by.count }}</div>
+                
+                {% ifnotequal request.user.username curr_user_object.0.username %}
+                    <hr>
+                    {% if request.user in curr_user_object.0.followed_by.all %}
+                    <a href="/{{ curr_user_object.0.pk }}/unfollow" class="btn btn-danger btn-block">Unfollow</a>
+                    {% else %}
+                    <a href="/{{ curr_user_object.0.pk }}/follow" class="btn btn-success btn-block">Follow</a>
+                    {% endif %}
+                {% endifnotequal %}
+            </div>            
+           </div> 
+        </br>
+           <a href="{% url 'authentication:logout' %}" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+        <div class="col-5">
+            <h3>What's happening, {{ curr_user_object.0.username }}?</h3>
+            {% for tweet in curr_user_tweets %}
+                <ul>
+                    <li><a href="{% url 'accounts:profile' pk=curr_user_object.0.pk %}">@{{ curr_user_object.0.username }}</a> - <a href="{% url 'tweet:tweet_detail' pk=tweet.id %}">{{tweet.created_on}}</a></li>
+                    <ul><li>{{tweet.body}}</li></ul>                    
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

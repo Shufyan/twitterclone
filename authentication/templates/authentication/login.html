@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container">
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-5">
+                   <h2>Welcome to Twitterclone!</h2>
+                   <h3>Login to get posting and see what your freinds are up to!</h3>
+                   <hr>
+                   <h3>Don't have an account? <a href="{% url 'authentication:signup' %}">Sign up here!</a></h3> 
+                </div>
+                <div class="col-5">
+                    <h1>Log In</h1>
+                    {% bootstrap_form form %}
+                    <input type="submit" class="btn btn-default" value="Login">
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</div>
+{% endblock %}

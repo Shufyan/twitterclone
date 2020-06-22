@@ -1,0 +1,30 @@
+{% include 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+           <div class="card">
+            <div class="card-body">
+                {{ user.username }}
+                    <div><a href="{% url 'accounts:profile' pk=user.id %}">@{{ user.username }}</a></div>
+                    </br>
+                    <div>Tweets: {{ user.tweets.all.count }}</div>
+                    <div><a href="{% url 'accounts:following'%}">Following:</a> {{ user.follows.count }}</div>
+                    <div><a href="{% url 'accounts:followers'%}">Followers:</a> {{ user.followed_by.count }}</div>
+            </div>            
+           </div> 
+        </br>
+           <a href="{% url 'authentication:logout' %}" class="btn btn-danger btn-sm">Logout</a>
+        </div>
+        <div class="col-5">
+            <h3>{{ title }}:</h3>
+            {% for profile in userprofiles %}
+            <ul>
+                <li><a href="{% url 'accounts:profile' pk=profile.pk %}">@{{ profile }}</a></li>                
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
